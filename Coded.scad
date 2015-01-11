@@ -9,6 +9,7 @@ corners   = sqrt(pow(pythag,2)+pow(x,2));
 // In theory all parts are identical (for a cube), but this lets you pick which
 // of the 3 parts you're generating
 slice     = 1;
+t         = 0.4; // 0 < Tolerance < 1
 
 // Intersection "subtracts" the helix from the cube and leaves only the overlap
 intersection(){
@@ -22,7 +23,9 @@ intersection(){
 		                  convexity = 10, 
 		                  twist = 360, 
 		                  $fn = 300)
-				pie_slice(x, 120*(slice-1), 120*slice);
+				// Add tolerance by scaling down anf shifting to change the origin of the scale
+				translate([t/2,sqrt(2)*t,0]) scale([1-t,1-t,1]) 
+					pie_slice(x*2, 120*(slice-1), 120*slice);
 		}
 	}
 	cube([x,x,x], center=true);
